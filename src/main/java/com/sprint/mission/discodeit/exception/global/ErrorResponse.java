@@ -13,6 +13,12 @@ public class ErrorResponse {
     this.message = errorCode.getMessage();
   }
 
+  public ErrorResponse(int status, String code, String message) {
+    this.status = status;
+    this.code = code;
+    this.message = message;
+  }
+
   public int getStatus() {
     return status;
   }
