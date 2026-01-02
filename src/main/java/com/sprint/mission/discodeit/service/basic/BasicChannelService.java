@@ -7,6 +7,8 @@ import com.sprint.mission.discodeit.dto.request.PublicChannelUpdateRequest;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.ReadStatus;
+import com.sprint.mission.discodeit.exception.channel.ChannelNotFoundException;
+import com.sprint.mission.discodeit.exception.channel.PrivateChannelUpdateException;
 import com.sprint.mission.discodeit.mapper.ChannelMapper;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.MessageRepository;
@@ -70,8 +72,8 @@ public class BasicChannelService implements ChannelService {
         .map(channelMapper::toDto)
         .orElseThrow(() -> {
           log.warn("Channel 단건 조회 실패 - 존재하지 않는 channelId={}", channelId);
-          return new NoSuchElementException("Channel with id " + channelId + " not found");
-            });
+          return new ChannelNotFoundException();
+        });
     log.info("Channel 단건 조회 성공 - channelId={}", channelId);
     return result;
   }
@@ -104,11 +106,11 @@ public class BasicChannelService implements ChannelService {
     Channel channel = channelRepository.findById(channelId)
         .orElseThrow(() -> {
           log.warn("Channel 수정 실패 - 존재하지 않음 ChannelId={}", channelId);
-          return new NoSuchElementException("Channel with id " + channelId + " not found");
+          return new ChannelNotFoundException();
         });
     if (channel.getType().equals(ChannelType.PRIVATE)) {
-      log.warn("Channel 수정 실패 - Private Channel은 수정 불가 - channelId={}", channelId);
-      throw new IllegalArgumentException("Private channel cannot be updated");
+      log.warn("Channel 수정 실패 - Private channel은 수정 불가 - channelId={}", channelId);
+      throw new PrivateChannelUpdateException();
     }
     channel.update(newName, newDescription);
 
@@ -123,7 +125,7 @@ public class BasicChannelService implements ChannelService {
     log.info("Channel 삭제 요청 - channelId={}", channelId);
     if (!channelRepository.existsById(channelId)) {
       log.warn("Channel 삭제 실패 - 존재하지 않는 채널 channelId={}", channelId);
-      throw new NoSuchElementException("Channel with id " + channelId + " not found");
+      throw new ChannelNotFoundException();
     }
 
     messageRepository.deleteAllByChannelId(channelId);
