@@ -1,0 +1,67 @@
+# JSON, Markdown
+*.json
+*.md
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+.logs/
+logs/
+discodeit.log
+
+# IDE 설정
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Mac 시스템 파일
+.DS_Store
+
+# Build files
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Eclipse 관련
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# 패키징 파일
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# VM crash log
+hs_err_pid*
+replay_pid*
+
+# PostgreSQL
+*.sql
+pgdata/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+*.lock
+*.bin
